@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-nest-deployment
+  labels:
+    app: hello-nest
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-nest
+  template:
+    metadata:
+      labels:
+        app: hello-nest
+    spec:
+      containers:
+      - name: hello-nest
+        # Reemplaza TU_USUARIO por tu usuario/organización real de GitHub
+        image: ghcr.io/TU_USUARIO/hello-nest-k8s:latest
+        ports:
+        - containerPort: 3000
+      imagePullSecrets:
+      - name: ghcr-secret
