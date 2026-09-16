@@ -1,0 +1,29 @@
+services:
+  nest:
+    container_name: app
+    build: .
+    env_file:
+      - .env
+    environment:
+      DB_HOST: db
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+
+  db:
+    container_name: postgres
+    image: postgres:16
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: mydb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5432:5432
+
+volumes:
+  pgdata:
+
