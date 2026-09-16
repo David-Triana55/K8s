@@ -6,18 +6,20 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write   # necesario para poder publicar en GHCR
+      packages: write
 
     steps:
       - name: Descargar el código del repo
         uses: actions/checkout@v4
+
+      - name: Calcular el nombre de la imagen en minúsculas
+        run: echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Login en GitHub Container Registry
         uses: docker/login-action@v3
